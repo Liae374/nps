@@ -13,11 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/admin', ['App\Http\Controllers\AdminController', 'Admin']);
+Route::get('/admin', ['App\Http\Controllers\BackController', 'Admin']);
 
-Route::get('/client/{id}', ['App\Http\Controllers\ClientController', 'client']);
-Route::post('/client', ['App\Http\Controllers\ClientController', 'client']);
+Route::get('/client/{id}', ['App\Http\Controllers\FrontController', 'client']);
+Route::post('/client', ['App\Http\Controllers\FrontController', 'client']);
+Route::get('/client', ['App\Http\Controllers\FrontController', 'authentication']);
 
-Route::post('/thanks', ['App\Http\Controllers\ClientController', 'thanks']);
+Route::post('/thanks', ['App\Http\Controllers\FrontController', 'thanks']);
 
-Route::get('/', ['App\Http\Controllers\ClientController', 'authentication']);
+Route::get('/', ['App\Http\Controllers\FrontController', 'authentication']);

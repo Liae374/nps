@@ -2,23 +2,6 @@
 
 
 @section('content')
-
-<nav class='navbar navbar-expand-lg navbar-dark bg-dark'>
-    <div class='container-fluid'>
-        <span class='navbar-brand mb-0 h1' href='/index.php?action=admin'>NPS</span>
-        <div class='collapse navbar-collapse' id='navbarSupportedContent'>
-            <ul class='navbar-nav me-auto mb-2 mb-lg-0'>
-                <li class='nav-item'>
-                    <a class='nav-link' aria-current='page' href='/client'>Client</a>
-                </li>
-                <li class='nav-item'>
-                    <a class='nav-link' aria-current='page' href='/admin'>Admin</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
 <div class='body'>
     <h3 style='margin: 3rem;text-align: center;'>Quelle est la probabilité que vous recommandiez nos services à un proche?</h3>
     <form method='post' action='/thanks'>

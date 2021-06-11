@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class ClientController extends Controller
+class FrontController extends Controller
 {
     public function client() 
     {
@@ -15,6 +15,12 @@ class ClientController extends Controller
 
     public function thanks()
     {
+        $note = new \App\Models\Note;
+        $note->id = request('id');
+        $note->rating = request('rating');
+        
+        $note->save();
+
         return view('thanks', [
             'id' => request('id'),
             'rating' => request('rating')

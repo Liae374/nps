@@ -1,3 +1,9 @@
+@extends('layout')
+
+@section('content')
+
+
+<div class='body'>
 <h4 style='margin-bottom: 1.5rem;margin-top: 1.5rem;'>Veuillez entrer votre identifiant client : </h4>
 <form action='/client' method='post'>
 {{ csrf_field() }}
@@ -6,3 +12,5 @@
     </div>
     <button type='submit' class='btn btn-primary'>Connexion</button>
 </form>
+</div>
+@endsection

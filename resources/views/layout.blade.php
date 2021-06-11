@@ -89,6 +89,31 @@
     </style>
     </head>
     <body>
+        <nav class='navbar navbar-expand-lg navbar-dark bg-dark'>
+            <div class='container-fluid'>
+                <span class='navbar-brand mb-0 h1' href='/index.php?action=admin'>NPS</span>
+                <div class='collapse navbar-collapse' id='navbarSupportedContent'>
+                    <ul class='navbar-nav me-auto mb-2 mb-lg-0'>
+                        <li class='nav-item'>
+                            <a class='nav-link' aria-current='page' href='/client'>Client</a>
+                        </li>
+                        <li class='nav-item'>
+                            <a class='nav-link' aria-current='page' href='/admin'>Admin</a>
+                        </li>
+                        @if (true) 
+                        <li class='nav-item dropdown' style='position: relative;'>
+                            <a class='nav-link dropdown-toggle' id='navbarDropdownMenuLink' role='button'  data-bs-toggle='dropdown' aria-expanded='false'>
+                                Compte
+                            </a>
+                            <ul class='dropdown-menu dropdown-menu-dark' aria-labelledby='navbarDropdownMenuLink'>
+                                <li><a class='dropdown-item' href='/logout'>Déconnexion</a></li>
+                            </ul>
+                        </li>
+                        @endif
+                    </ul>
+                </div>
+            </div>
+        </nav>
             @yield('content')
     <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js' integrity='sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4' crossorigin='anonymous'></script>
     </body>
