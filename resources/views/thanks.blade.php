@@ -16,11 +16,11 @@
                 <h5 class='modal-title' id='exampleModalLabel'>Modifier</h5>
                 <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
             </div>
-            <form method='post' action='/index.php'>
+            <form method='post' action='/client/put'>
+              {{ csrf_field() }}
                 <div class='modal-body'>
                     <div class='input-group'>
-                        <input type='number' required max='10' min='0' class='form-control' id='note' name='note'>
-                        <input type='hidden' name='action' value='update'>
+                        <input type='number' required max='10' min='0' class='form-control' name='rating'>
                         <input type='hidden' name='id' value='<?= $id ?>'>
                     </div>
                 </div>
@@ -45,13 +45,12 @@
       </div>
       <div class='modal-footer'>
         <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Fermer</button>
-        <form method='post' action='/index.php'>
+        <form method='post' action="{{ route('client.delete', ['id' => $id]) }}">
+        {{ csrf_field() }}
             <div>
                 <input type='submit' class='btn btn-danger' value='Supprimer'>
             </div>
-            <input type='hidden' name='action' value='delete'>
-            <input type='hidden' name='id' value='<?= $id ?>'>
-            <input type='hidden' name='direction' value='client'>
+            <input type='hidden' name='id' value={{ $id }}>
         </form>
       </div>
     </div>

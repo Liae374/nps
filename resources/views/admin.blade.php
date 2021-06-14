@@ -67,8 +67,10 @@ d'un service, d'une marque ou d'une entreprise.
         <td>{{$note->rating}}</td>
         <td>{{$note->updated_at}}</td>
         <td>
-            <form action="/admin" methode='post'>
+            <form action="/admin/delete" method='post'>
+              {{ csrf_field() }}
                 <button type='submit' class='btn btn-outline-danger btn-sm'>supprimer</button>
+                <input type="hidden" value="{{ $note->id }}" name="id">
             </form>
         </td>
         </tr>

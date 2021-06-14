@@ -18,4 +18,18 @@ class BackController extends Controller
             'NPS' => $note->NPS()
         ]);
     }
+
+    public function delete()
+    {
+        $note = \App\Models\Note::find(request('id'));
+        $note->delete();
+        $stats = $note->stats();
+        $notes = \App\Models\Note::all();
+        return view('admin', [
+            'notes' => $notes,
+            'stats' => $stats,
+            'average' => $note->average(),
+            'NPS' => $note->NPS()
+        ]);
+    }
 }
