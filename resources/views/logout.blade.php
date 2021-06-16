@@ -11,7 +11,7 @@ session_destroy();
 
 ob_start();?>
 
-<h2 style='text-align: center; margin-bottom: 1.5rem;margin-top: 1.5rem;'>Vous avez été déconnecté!</h2>
+<h2 style="text-align: center; margin-bottom: 1.5rem;margin-top: 1.5rem;">Vous avez été déconnecté!</h2>
 
 
 <?php 

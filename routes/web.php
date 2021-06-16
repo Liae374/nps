@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,24 +14,30 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-Route::get('/admin', ['App\Http\Controllers\BackController', 'admin']);
-Route::post('/admin/delete', ['App\Http\Controllers\BackController', 'delete']);
-Route::post('/admin/deleteAll', ['App\Http\Controllers\BackController', 'deleteAll']);
-
-Route::get('/client/{id}', ['App\Http\Controllers\FrontController', 'form']);
-Route::post('/client', ['App\Http\Controllers\FrontController', 'form']);
-Route::get('/client', ['App\Http\Controllers\FrontController', 'authentication']);
-
-Route::post('/client/thanks', ['App\Http\Controllers\FrontController', 'thanks']);
-
-Route::get('/', ['App\Http\Controllers\FrontController', 'authentication']);
-
-Route::post('/client/delete', ['App\Http\Controllers\FrontController', 'delete'])->name('client.delete');
-Route::post('/client/put', ['App\Http\Controllers\FrontController', 'put']);
-
-Route::get('/co', ['App\Http\Controllers\UserController', 'show']);
-
-Route::get('/blue', function(){
-    return 'blue';
-})->middleware('auth');
+Route::group([
+    'namespace' => '\App\Http\Controllers'
+], function() {
+    Route::group([
+        'prefix' => '/admin',
+        'middleware' => 'auth'
+    ], function() {
+        Route::get('/','BackController@admin')->name('admin');
+        Route::post('/delete', 'BackController@delete')->name('admin.delete');
+        Route::post('/deleteAll', 'BackController@deleteAll')->name('admin.deleteAll');
+        Route::post('/search', 'BackController@search')->name('search');
+    });
+    Route::group([
+        'prefix' => '/client',
+    ], function() {
+        Route::get('/{id}', 'FrontController@form')->name('client.id');
+        Route::post('/', 'FrontController@form')->name('client');
+        Route::get('/', 'FrontController@authentication')->name('client.authentication');
+        Route::post('/thanks', 'FrontController@thanks')->name('client.thanks');
+        Route::post('/delete', 'FrontController@delete')->name('client.delete');
+        Route::post('/put', 'FrontController@put')->name('client.put');
+    });
+    Route::get('login', 'AuthController@index')->name('firstLogin');
+    Route::post('login', 'AuthController@login')->name('login'); 
+    Route::get('signout', 'AuthController@signOut')->name('signout');
+    Route::get('/', 'FrontController@authentication')->name('home');
+});

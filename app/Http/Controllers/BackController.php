@@ -69,4 +69,17 @@ class BackController extends Controller
             'logError' => $logError
         ]);
     }
+
+    public function search()
+    {
+        $note = \App\Models\Note::find(request('id'));
+        $stats = $note->stats();
+        return view('admin', [
+            'notes' => [$note],
+            'stats' => $stats,
+            'average' => $note->average(),
+            'NPS' => $note->NPS()
+        ]);
+    }
+
 }
