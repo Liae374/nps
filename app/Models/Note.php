@@ -48,6 +48,9 @@ class Note extends Model
             }
         } 
         $co = null;
+        if ($total==0) {
+            return 'null';
+        }
         return ($pos/$total*100 - $neg/$total*100);
     }
 
@@ -61,6 +64,9 @@ class Note extends Model
             $total += 1;
         } 
         $co = null;
+        if ($total==0) {
+            return 'null';
+        }
         return $average/$total;
     }
 

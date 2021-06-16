@@ -1,57 +1,28 @@
-<?php
-$currentPageClient = ' ';
-$currentPageAdmin = ' ';
-$search = ' ';
+@extends('layout')
 
-if (empty($_SESSION['login'])) {
-    $log = ' ';
-} else {
-    ob_start();
-    ?>
 
-    <li class='nav-item dropdown' style='position: relative;'>
-        <a class='nav-link dropdown-toggle' id='navbarDropdownMenuLink' role='button'  data-bs-toggle='dropdown' aria-expanded='false'>
-            Compte
-        </a>
-            <ul class='dropdown-menu dropdown-menu-dark' aria-labelledby='navbarDropdownMenuLink'>
-            <li><a class='dropdown-item' href='/index.php?action=logout'>Déconnexion</a></li>
-        </ul>
-    </li>
-
-    <?php 
-    $log = ob_get_clean();
-}
-
-ob_start();
-$logError = '';
-if (isset($_POST)) {
-    if (isset($_POST['login']) && isset($_POST['password'])) {
-        if (($_POST['login'] == AD_LOGIN) && ($_POST['password'] == AD_PASSWORD) ) {
-            session_start();
-            $_SESSION['login'] = AD_LOGIN;
-            header('Location: /index.php?action=admin');
-            exit();
-        } else {
-            $logError = ' is-invalid';
-        }
-    } 
-}
-?>
-
+@section('content')
+<div class="body">
 <h2 style='margin-bottom: 1.5rem;margin-top: 1.5rem;'>Se connecter</h2>
-<form action='' method='post'>
-    <div class='input-group mb-3'>
-        <input type='text' name='login' class='form-control<?=$logError?>' placeholder='Identifiant'>
+<form action='/connection' method='post'>
+{{ csrf_field() }}
+    <div class='mb-3'>
+        <input type='text' name='login' required class='form-control{{$logError}}' id="input" placeholder='Identifiant'>
+        @if ($logError != '')
+            <div id="input" class="invalid-feedback">
+                Identifiant ou mot de passe incorrect.
+            </div>
+        @endif
     </div>
-    <div class='input-group mb-3'>
-        <input type='password' name='password' class='form-control<?=$logError?>' placeholder='Mot de passe'>
+    <div class='mb-3'>
+        <input type='password' name='password' required class='form-control{{$logError}}' id="input" placeholder='Mot de passe'>
+        @if ($logError != '')
+            <div class="invalid-feedback">
+                Identifiant ou mot de passe incorrect.
+            </div>
+        @endif
     </div>
     <button type='submit' class='btn btn-primary'>Connexion</button>
 </form>
-
-<?php 
-$average = round($client->average());
-$NPS = round($client->NPS());
-$content = ob_get_clean(); 
-require('template.php'); 
-?>
+</div>
+@endsection

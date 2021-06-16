@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -101,14 +102,25 @@
                             <a class='nav-link' aria-current='page' href='/admin'>Admin</a>
                         </li>
                         @if (true) 
-                        <li class='nav-item dropdown' style='position: relative;'>
-                            <a class='nav-link dropdown-toggle' id='navbarDropdownMenuLink' role='button'  data-bs-toggle='dropdown' aria-expanded='false'>
-                                Compte
-                            </a>
-                            <ul class='dropdown-menu dropdown-menu-dark' aria-labelledby='navbarDropdownMenuLink'>
-                                <li><a class='dropdown-item' href='/logout'>Déconnexion</a></li>
-                            </ul>
-                        </li>
+                            <li class='nav-item dropdown' style='position: relative;'>
+                                <a class='nav-link dropdown-toggle' id='navbarDropdownMenuLink' role='button'  data-bs-toggle='dropdown' aria-expanded='false'>
+                                    Compte
+                                </a>
+                                <ul class='dropdown-menu dropdown-menu-dark' aria-labelledby='navbarDropdownMenuLink'>
+                                    <li>
+                                        <form action="/logout" method="post">
+                                        {{ csrf_field() }}
+                                            <button class='dropdown-item' type="submit">
+                                            Déconnexion
+                                            </button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+                        @else
+                            <li class='nav-item'>
+                                <a class='nav-link' aria-current='page' href='/login'>Se connecter</a>
+                            </li>
                         @endif
                     </ul>
                 </div>

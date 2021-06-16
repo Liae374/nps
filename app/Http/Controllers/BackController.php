@@ -32,4 +32,41 @@ class BackController extends Controller
             'NPS' => $note->NPS()
         ]);
     }
+
+    public function deleteAll()
+    {
+        $notes = \App\Models\Note::all();
+        foreach ($notes as $note) {
+            $note->delete();
+        }
+        return 'blue';
+    }
+
+    public function login()
+    {
+        define('AD_LOGIN','admin');
+        define('AD_PASSWORD','mp');
+
+        return view('login', [
+            'logError' => ''
+        ]);
+    }
+
+    public function connection()
+    {
+        define('AD_LOGIN','admin');
+        define('AD_PASSWORD','mp');
+
+        $logError = '';
+        if ((request('login') == AD_LOGIN) && (request('password') == AD_PASSWORD) ) {
+            session()->put('login', AD_LOGIN);
+            header('Location: /admin');
+            exit();
+        } else {
+            $logError = ' is-invalid';
+        }
+        return view('login', [
+            'logError' => $logError
+        ]);
+    }
 }

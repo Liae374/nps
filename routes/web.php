@@ -13,16 +13,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('/admin', ['App\Http\Controllers\BackController', 'admin']);
 Route::post('/admin/delete', ['App\Http\Controllers\BackController', 'delete']);
+Route::post('/admin/deleteAll', ['App\Http\Controllers\BackController', 'deleteAll']);
 
 Route::get('/client/{id}', ['App\Http\Controllers\FrontController', 'form']);
 Route::post('/client', ['App\Http\Controllers\FrontController', 'form']);
 Route::get('/client', ['App\Http\Controllers\FrontController', 'authentication']);
 
-Route::post('/thanks', ['App\Http\Controllers\FrontController', 'thanks']);
+Route::post('/client/thanks', ['App\Http\Controllers\FrontController', 'thanks']);
 
 Route::get('/', ['App\Http\Controllers\FrontController', 'authentication']);
 
 Route::post('/client/delete', ['App\Http\Controllers\FrontController', 'delete'])->name('client.delete');
 Route::post('/client/put', ['App\Http\Controllers\FrontController', 'put']);
+
+Route::get('/co', ['App\Http\Controllers\UserController', 'show']);
+
+Route::get('/blue', function(){
+    return 'blue';
+})->middleware('auth');

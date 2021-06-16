@@ -16,9 +16,12 @@
 
 <script src='https://cdn.jsdelivr.net/npm/chart.js'></script>
 
-<div style='display: flex; margin:0 auto; width:300px;'>
-  <canvas id='myChart'></canvas>
-</div>
+@if (!(($stats['detracteurs'] == '0') && ($stats['passifs'] == '0') && ($stats['promoteurs'] == '0')))
+  <div style='display: flex; margin:0 auto; width:300px;'>
+    <canvas id='myChart'></canvas>
+  </div>
+@endif
+
 <script>
   Chart.defaults.plugins.legend.position ='right';
 const data = {
@@ -50,6 +53,7 @@ const config = {
     config
   );
 </script>
+
 <p style='margin-bottom: 1.5rem'>Le Net Promoter Score est un indice qui permet de mesurer la satisfaction d'une marque, 
 d'un produit ou d'un service. Il est calculé à partir de l’intention de recommandation d'un produit, 
 d'un service, d'une marque ou d'une entreprise. 
@@ -77,12 +81,14 @@ d'un service, d'une marque ou d'une entreprise.
     @endforeach
 </table>
 
-<!-- Button trigger modal -->
-<div class='d-grid gap-2 col-6 mx-auto'>
-<button style='margin-bottom: 2rem;' type='button' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#staticBackdrop'>
-  Supprimer tout
-</button>
-</div>
+
+@if (!(($stats['detracteurs'] == '0') && ($stats['passifs'] == '0') && ($stats['promoteurs'] == '0')))
+  <div class='d-grid gap-2 col-6 mx-auto'>
+  <button style='margin-bottom: 2rem;' type='button' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#staticBackdrop'>
+    Supprimer tout
+  </button>
+  </div>
+@endif
 
 <!-- Modal -->
 <div class='modal fade' id='staticBackdrop' data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' aria-labelledby='staticBackdropLabel' aria-hidden='true'>
@@ -97,11 +103,11 @@ d'un service, d'une marque ou d'une entreprise.
       </div>
       <div class='modal-footer'>
         <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Close</button>
-        <form method='post' action='/index.php'>
+        <form method='post' action='/admin/deleteAll'>
+          {{ csrf_field() }}
             <div>
                 <input type='submit' class='btn btn-danger' value='Supprimer tout'>
             </div>
-            <input type='hidden' name='action' value='deleteAll'>
         </form>
       </div>
     </div>
