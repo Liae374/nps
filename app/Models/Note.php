@@ -69,5 +69,4 @@ class Note extends Model
         }
         return $average/$total;
     }
-
 }

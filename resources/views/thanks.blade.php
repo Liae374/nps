@@ -17,7 +17,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form method="post" action="/client/put">
-              {{ csrf_field() }}
+                {{ csrf_field() }}
                 <div class="modal-body">
                     <div class="input-group">
                         <input type="number" required max="10" min="0" class="form-control" name="rating">
@@ -34,27 +34,27 @@
 </div>
 
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Suppression de la note</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        Êtes-vous sûr?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-        <form method="post" action="{{ route('client.delete', ['id' => $id]) }}">
-        {{ csrf_field() }}
-            <div>
-                <input type="submit" class="btn btn-danger" value="Supprimer">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Suppression de la note</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <input type="hidden" name="id" value={{ $id }}>
-        </form>
-      </div>
+            <div class="modal-body">
+                Êtes-vous sûr?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                <form method="post" action="/client/delete">
+                    {{ csrf_field() }}
+                    <div>
+                        <input type="submit" class="btn btn-danger" value="Supprimer">
+                    </div>
+                    <input type="hidden" name="id" value={{ $id }}>
+                </form>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 
