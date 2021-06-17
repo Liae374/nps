@@ -8,22 +8,17 @@ class FrontController extends Controller
 {
     public function form() 
     {
-        return view('form', [
-            'id' => request('id')
-        ]);
+        return view('form', []);
     }
 
     public function thanks()
     {
         $note = new \App\Models\Note;
-        $note->id = request('id');
         $note->rating = request('rating');
-
         $note->save();
-
         return view('thanks', [
-            'id' => request('id'),
-            'rating' => request('rating')
+            'rating' => request('rating'),
+            'id' => $note->id
         ]);
     }
 
@@ -36,7 +31,6 @@ class FrontController extends Controller
     {
         $note = \App\Models\Note::find(request('id'));
         $note->delete();
-
         return view('form', [
             'id' => request('id')
         ]);

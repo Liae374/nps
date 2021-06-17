@@ -35,51 +35,31 @@ class BackController extends Controller
 
     public function deleteAll()
     {
-        $notes = \App\Models\Note::all();
-        foreach ($notes as $note) {
-            $note->delete();
-        }
-        return 'blue';
-    }
-
-    public function login()
-    {
-        define('AD_LOGIN','admin');
-        define('AD_PASSWORD','mp');
-
-        return view('login', [
-            'logError' => ''
-        ]);
-    }
-
-    public function connection()
-    {
-        define('AD_LOGIN','admin');
-        define('AD_PASSWORD','mp');
-
-        $logError = '';
-        if ((request('login') == AD_LOGIN) && (request('password') == AD_PASSWORD) ) {
-            session()->put('login', AD_LOGIN);
-            header('Location: /admin');
-            exit();
-        } else {
-            $logError = ' is-invalid';
-        }
-        return view('login', [
-            'logError' => $logError
-        ]);
+        \App\Models\Note::query()->truncate();
+        header('Location: /admin');
+        exit;
     }
 
     public function search()
     {
         $note = \App\Models\Note::find(request('id'));
-        $stats = $note->stats();
-        return view('admin', [
-            'notes' => [$note],
-            'stats' => $stats,
-            'average' => $note->average(),
-            'NPS' => $note->NPS()
-        ]);
+        if ($note == null) {
+            $note = new \App\Models\Note;
+            $stats = $note->stats();
+            return view('admin', [
+                'notes' => [],
+                'stats' => $stats,
+                'average' => $note->average(),
+                'NPS' => $note->NPS()
+            ]);
+        } else {
+            $stats = $note->stats();
+            return view('admin', [
+                'notes' => [$note],
+                'stats' => $stats,
+                'average' => $note->average(),
+                'NPS' => $note->NPS()
+            ]);
+        }
     }
-
 }

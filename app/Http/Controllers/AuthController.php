@@ -10,14 +10,12 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-
     public function index()
     {
         return view('login', [
             'logError' => ''
         ]);
     }  
-      
 
     public function login(Request $request)
     {
@@ -25,18 +23,17 @@ class AuthController extends Controller
             'email' => 'required',
             'password' => 'required',
         ]);
-
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
-            return redirect()->intended('dashboard')
-                        ->withSuccess('Signed in');
+            return redirect()->intended('admin')
+                            ->withSuccess('Signed in');
         }
         return redirect('login')->withErrors(['login' => 'id ou mp incorrect']);
     }
     
-    public function signOut() {
+    public function logout() {
         Session::flush();
         Auth::logout();
-        return Redirect('login');
+        return view('logout');
     }
 }

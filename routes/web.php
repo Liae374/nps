@@ -29,15 +29,14 @@ Route::group([
     Route::group([
         'prefix' => '/client',
     ], function() {
-        Route::get('/{id}', 'FrontController@form')->name('client.id');
-        Route::post('/', 'FrontController@form')->name('client');
-        Route::get('/', 'FrontController@authentication')->name('client.authentication');
+        //Route::get('/{id}', 'FrontController@form')->name('client.id');
+        Route::get('/', 'FrontController@form')->name('client');
         Route::post('/thanks', 'FrontController@thanks')->name('client.thanks');
         Route::post('/delete', 'FrontController@delete')->name('client.delete');
         Route::post('/put', 'FrontController@put')->name('client.put');
     });
     Route::get('login', 'AuthController@index')->name('firstLogin');
     Route::post('login', 'AuthController@login')->name('login'); 
-    Route::get('signout', 'AuthController@signOut')->name('signout');
-    Route::get('/', 'FrontController@authentication')->name('home');
+    Route::get('logout', 'AuthController@logout')->name('logout');
+    Route::get('/', 'FrontController@form')->name('home');
 });
