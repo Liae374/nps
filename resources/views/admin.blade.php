@@ -55,6 +55,7 @@
     <table class="table table-hover" style="margin-bottom: 1.5rem;">
         <tr>
             <th scope="col">ID</th>
+            <th scope="col">ID Client</th>
             <th scope="col">Note</th>
             <th scope="col">Date</th>
             <th scope="col">Actions</th>
@@ -62,6 +63,7 @@
         @foreach($notes as $note)
             <tr>
                 <th scope="row">{{$note->id}}</th>
+                <th>{{$note->IDclient}}</th>
                 <td>{{$note->rating}}</td>
                 <td>{{$note->updated_at}}</td>
                 <td>

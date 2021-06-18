@@ -8,17 +8,29 @@ class FrontController extends Controller
 {
     public function form() 
     {
-        return view('form', []);
+        $client = \App\Models\Client::where('IDclient', '=', request('IDclient'))->first();
+        if ($client !== null) {
+            return view('form', [
+                'IDclient' => request('IDclient')
+            ]);
+        }
+        return redirect('/')->withErrors(['login' => 'identifiant incorrect']);
     }
 
     public function thanks()
     {
         $note = new \App\Models\Note;
-        $note->rating = request('rating');
+        if (request('rating') !== null){
+            $note->rating = request('rating');
+        } else {
+            $note->rating = 0;
+        }
+        $note->IDclient = request('IDclient');
         $note->save();
         return view('thanks', [
-            'rating' => request('rating'),
-            'id' => $note->id
+            'rating' => $note->rating,
+            'id' => $note->id,
+            'IDclient' => request('IDclient')
         ]);
     }
 
@@ -31,9 +43,7 @@ class FrontController extends Controller
     {
         $note = \App\Models\Note::find(request('id'));
         $note->delete();
-        return view('form', [
-            'id' => request('id')
-        ]);
+        return redirect('/client');
     }
 
     public function put()
@@ -43,7 +53,8 @@ class FrontController extends Controller
         $note->save();
         return view('thanks', [
             'id' => request('id'),
-            'rating' => request('rating')
+            'rating' => request('rating'),
+            'IDclient' => request('IDclient')
         ]);
     }
 }

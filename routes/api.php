@@ -19,14 +19,23 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::group([
-    'namespace' => '\App\Http\Controllers'
+    'namespace' => '\App\Http\Controllers\Api',
 ], function() {
-    Route::post('create', 'ApiController@create');
-    Route::get('create', 'ApiController@create');
-    Route::post('read', 'ApiController@read');
-    Route::get('read', 'ApiController@read');
-    Route::post('update', 'ApiController@update');
-    Route::get('update', 'ApiController@update');
-    Route::post('delete', 'ApiController@delete');
-    Route::get('delete', 'ApiController@delete');
+    Route::group([
+        'prefix' => 'note'
+    ], function() {
+        Route::get('/{ID}', 'NoteController@read');
+        Route::get('/', 'NoteController@readAll');
+        Route::put('/{ID}', 'NoteController@update');
+        Route::delete('/{ID}', 'NoteController@delete');
+    });
+    Route::group([
+        'prefix' => 'client'
+    ], function() {
+        Route::post('/{ID}', 'ClientController@create');
+        Route::get('/', 'ClientController@readAll');
+        Route::get('/{ID}', 'ClientController@read');
+        Route::delete('/{ID}', 'ClientController@delete');
+    });
+    Route::post('/{ID}/note', 'NoteController@create');
 });
