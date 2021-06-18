@@ -36,6 +36,6 @@ Route::group([
         Route::get('/', 'ClientController@readAll');
         Route::get('/{ID}', 'ClientController@read');
         Route::delete('/{ID}', 'ClientController@delete');
+        Route::post('/{ID}/note', 'NoteController@create');
     });
-    Route::post('/{ID}/note', 'NoteController@create');
 });
