@@ -6,6 +6,25 @@ use Illuminate\Http\Request;
 
 class FrontController extends Controller
 {
+    /**
+     * Affiche la page d'authentification client.
+     */
+    public function authentication()
+    {
+        return view('authentication', []);
+    }
+
+    public function delete()
+    {
+        $note = \App\Models\Note::find(request('id'));
+        $note->delete();
+        return redirect('/client');
+    }
+
+    /**
+    * Si l'identifiant client existe dans la base de donnée, affiche le formulaire, 
+    * redirection vers l'authentification sinon.
+    */
     public function form() 
     {
         $client = \App\Models\Client::where('IDclient', '=', request('IDclient'))->first();
@@ -17,6 +36,10 @@ class FrontController extends Controller
         return redirect('/')->withErrors(['login' => 'identifiant incorrect']);
     }
 
+    /**
+     * Enregistre la note dans la base de donnée,
+     * puis affiche la page de remerciement.
+     */
     public function thanks()
     {
         $note = new \App\Models\Note;
@@ -34,18 +57,10 @@ class FrontController extends Controller
         ]);
     }
 
-    public function authentication()
-    {
-        return view('authentication', []);
-    }
-
-    public function delete()
-    {
-        $note = \App\Models\Note::find(request('id'));
-        $note->delete();
-        return redirect('/client');
-    }
-
+    /**
+     * Modifie la valeur d'une note déjà enregistrée dans la base de donnée,
+     * et réaffiche la page de remerciement.
+     */
     public function put()
     {
         $note = \App\Models\Note::find(request('id'));

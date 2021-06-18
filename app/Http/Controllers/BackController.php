@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 
 class BackController extends Controller
 {
+    /**
+     * Récupère les statistiques et les notes contenues dans la base de donnée, 
+     * puis affiche la page admin.
+     */
     public function admin() 
     {
         $notes = \App\Models\Note::all();
@@ -19,33 +23,36 @@ class BackController extends Controller
         ]);
     }
 
+    /**
+     * Supprime la note possédant l'identifiant 'id',
+     * puis redirige vers la page admin.
+     */
     public function delete()
     {
         $note = \App\Models\Note::find(request('id'));
         $note->delete();
-        $stats = $note->stats();
-        $notes = \App\Models\Note::all();
-        return view('admin', [
-            'notes' => $notes,
-            'stats' => $stats,
-            'average' => $note->average(),
-            'NPS' => $note->NPS()
-        ]);
+        return redirect('/admin');
     }
 
+    /**
+     * Supprime toutes les notes présentes dans la base de donnée,
+     * puis redirige vers la page admin.
+     */
     public function deleteAll()
     {
         \App\Models\Note::query()->truncate();
-        header('Location: /admin');
-        exit;
+        return redirect('/admin');
     }
 
+    /**
+     * Affiche la page admin avec un tableau contenant le résultat de la recherche.
+     */
     public function search()
     {
-        $note = \App\Models\Note::find(request('id'));
-        if ($note == null) {
-            $note = new \App\Models\Note;
-            $stats = $note->stats();
+        $note = new \App\Models\Note;
+        $stats = $note->stats();
+        $notes = \App\Models\Note::where('IDclient', '=', request('id'))->get();
+        if ($notes == null) {
             return view('admin', [
                 'notes' => [],
                 'stats' => $stats,
@@ -53,9 +60,8 @@ class BackController extends Controller
                 'NPS' => $note->NPS()
             ]);
         } else {
-            $stats = $note->stats();
             return view('admin', [
-                'notes' => [$note],
+                'notes' => $notes,
                 'stats' => $stats,
                 'average' => $note->average(),
                 'NPS' => $note->NPS()

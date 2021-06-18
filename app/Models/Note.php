@@ -8,7 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Note extends Model
 {
     use HasFactory;
-
+    
+    /**
+    * Retourne le nombre de detracteurs/passifs/promoteurs contenus dans la base de donnée.
+    *
+    * @return array 
+    */
     function stats()
     {
         $notes = \App\Models\Note::all();
@@ -33,6 +38,11 @@ class Note extends Model
         return $all;
     }
 
+    /**
+    * Retourne le NPS des notes contenues dans la base de donnée.
+    *
+    * @return int le NPS
+    */
     function NPS()
     {
         $notes = \App\Models\Note::all();
@@ -54,6 +64,11 @@ class Note extends Model
         return ($pos/$total*100 - $neg/$total*100);
     }
 
+    /**
+    * Fonction retournant la moyenne des notes contenues dans la base de donnée.
+    * 
+    * @return int La moyenne
+    */
     function average()
     {
         $notes = \App\Models\Note::all();

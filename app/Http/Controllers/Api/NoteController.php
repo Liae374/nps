@@ -43,16 +43,16 @@ class NoteController extends Controller
      *      )
      * )
      */
-    public function create()
+    public function create(int $ID)
     {
         $note = new \App\Models\Note;
-        $client = \App\Models\Client::where('IDclient', '=', request('ID'))->first();
+        $client = \App\Models\Client::where('IDclient', '=', $ID)->first();
         if ($client == null) {
             return response(['error' => 'Client not found'], 404);
         } else {
             if ((request('rating') >= 0) && (request('rating') <= 10)) {
                 $note->rating = request('rating');
-                $note->IDclient = request('ID');
+                $note->IDclient = $ID;
                 $note->save();
                 return response($note,  201);
             } else {
@@ -88,9 +88,9 @@ class NoteController extends Controller
      *      )
      * )
      */
-    public function read()
+    public function read(int $ID)
     {
-        $note = \App\Models\Note::find(request('ID'));
+        $note = \App\Models\Note::find($ID);
         if ($note == null) {
             return response(['error' => 'Value not found'], 404);
         } else {
@@ -165,9 +165,9 @@ class NoteController extends Controller
      *      )
      * )
      */
-    public function update()
+    public function update(int $ID)
     {
-        $note = \App\Models\Note::find(request('ID'));
+        $note = \App\Models\Note::find($ID);
         if ($note == null) {
             return response(['error' => 'Value not found'], 404);
         } elseif ((request('rating') >= 0) && (request('rating') <= 10)) {
@@ -203,14 +203,14 @@ class NoteController extends Controller
      *      )
      * )
      */
-    public function delete()
+    public function delete(int $ID)
     {
-        $note = \App\Models\Note::find(request('ID'));
+        $note = \App\Models\Note::find($ID);
         if ($note == null) {
             return response(['error' => 'Value not found'], 404);
         } else {
             $note->delete();
-            return response();
+            return response('', 200);
         }
     }
 }

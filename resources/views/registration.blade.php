@@ -4,7 +4,7 @@
 <main class="signup-form">
     <div class="cotainer">
         <div class="row justify-content-center">
-            <div class="col-md-4">
+            <div class="col-md-4" style="padding-top: 2rem;">
                 <div class="card">
                     <h3 class="card-header text-center">Register User</h3>
                     <div class="card-body">

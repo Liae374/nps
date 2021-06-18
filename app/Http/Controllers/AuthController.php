@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+    /**
+     * Affiche la page login.
+     */
     public function index()
     {
         return view('login', [
@@ -17,6 +20,10 @@ class AuthController extends Controller
         ]);
     }  
 
+    /**
+     * Authentifie l'utilisateur, si réussi affiche la page admin, 
+     * sinon redirige vers la page de login avec une erreur.
+     */
     public function login(Request $request)
     {
         $request->validate([
@@ -30,19 +37,27 @@ class AuthController extends Controller
         }
         return redirect('login')->withErrors(['login' => 'id ou mp incorrect']);
     }
-    
+
+    /**
+     * Déconnecte l'utilisateur et affiche la vue de déconnexion.
+     */
     public function logout() {
         Session::flush();
         Auth::logout();
         return view('logout');
     }
 
-
+    /**
+     * Affiche la vue d'enregistrement.
+     */
     public function registration()
     {
         return view('registration');
     }
 
+    /**
+     * Enregistre l'utilisateur, et redirige vers la page admin.
+     */
     public function customRegistration(Request $request)
     {  
         $request->validate([
@@ -54,7 +69,7 @@ class AuthController extends Controller
         $data = $request->all();
         $check = $this->create($data);
          
-        return redirect("dashboard")->withSuccess('You have signed-in');
+        return redirect('admin')->withSuccess('You have signed-in');
     }
 
     public function create(array $data)

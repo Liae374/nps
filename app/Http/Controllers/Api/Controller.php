@@ -14,13 +14,10 @@ class Controller extends BaseController
      *      version="1.0.0",
      *      title="Api Documentation"
      * )
-     *
      * @OA\Server(
      *      url=L5_SWAGGER_CONST_HOST,
      *      description="API Server"
      * )   
-     *
-     *
      */
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 }

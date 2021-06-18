@@ -33,14 +33,14 @@ class ClientController extends Controller
      *      )
      * )
      */
-    public function create()
+    public function create(int $ID)
     {
-        $client = \App\Models\Client::where('IDclient', '=', request('ID'))->first();
+        $client = \App\Models\Client::where('IDclient', '=', $ID)->first();
         if ($client !== null) {
             return response(['error' => 'Client already exists'], 400);
         } else {
             $client = new \App\Models\Client;
-            $client->IDclient = request('ID');
+            $client->IDclient = $ID;
             $client->save();
             return response($client, 201);
         }
@@ -73,9 +73,9 @@ class ClientController extends Controller
      *      )
      * )
      */
-    public function read()
+    public function read(int $ID)
     {
-        $client = \App\Models\Client::where('IDclient', '=', request('ID'))->first();
+        $client = \App\Models\Client::where('IDclient', '=', $ID)->first();
         if ($client == null) {
             return response(['error' => 'Client not found'], 404);
         } else {
@@ -138,9 +138,9 @@ class ClientController extends Controller
      *      )
      * )
      */
-    public function delete()
+    public function delete(int $ID)
     {
-        $client = \App\Models\Client::where('IDclient', '=', request('ID'))->first();
+        $client = \App\Models\Client::where('IDclient', '=', $ID)->first();
         if (empty($client)) {
             return response(['error' => 'Client not found'], 404);
         } else {
