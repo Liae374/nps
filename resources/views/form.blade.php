@@ -18,7 +18,7 @@
                 <button type="submit" class="btn btn-primary" value="Envoyer">Envoyer</button>
             </div>
         </fieldset>
-        <input type="hidden" name="IDclient" value="{{ $IDclient }}">
+        <input type="hidden" name="id_client" value="{{ $id_client }}">
     </form>
 </div>
 @endsection

@@ -13,9 +13,11 @@ class BackController extends Controller
     public function admin() 
     {
         $notes = \App\Models\Note::all();
+        $clients = \App\Models\Client::all();
         $note = new \App\Models\Note;
         $stats = $note->stats();
         return view('admin', [
+            'clients' => $clients,
             'notes' => $notes,
             'stats' => $stats,
             'average' => $note->average(),
@@ -27,10 +29,21 @@ class BackController extends Controller
      * Supprime la note possédant l'identifiant 'id',
      * puis redirige vers la page admin.
      */
-    public function delete()
+    public function deleteNote()
     {
         $note = \App\Models\Note::find(request('id'));
         $note->delete();
+        return redirect('/admin');
+    }
+
+    /**
+     * Supprime le client possédant l'identifiant 'id' et les notes qui lui sont associées,
+     * puis redirige vers la page admin.
+     */
+    public function deleteClient()
+    {
+        $client = \App\Models\Client::find(request('id'));
+        $client->delete();
         return redirect('/admin');
     }
 
@@ -51,21 +64,22 @@ class BackController extends Controller
     {
         $note = new \App\Models\Note;
         $stats = $note->stats();
-        $notes = \App\Models\Note::where('IDclient', '=', request('id'))->get();
+        $notes = \App\Models\Note::where('id_client', '=', request('id'))->get();
+        $clients = \App\Models\Client::find(request('id'));
         if ($notes == null) {
-            return view('admin', [
-                'notes' => [],
-                'stats' => $stats,
-                'average' => $note->average(),
-                'NPS' => $note->NPS()
-            ]);
-        } else {
-            return view('admin', [
-                'notes' => $notes,
-                'stats' => $stats,
-                'average' => $note->average(),
-                'NPS' => $note->NPS()
-            ]);
+            $notes = [];
         }
+        if ($clients == null) {
+            $clients = [];
+        } else {
+            $clients = [$clients];
+        }
+        return view('admin', [
+            'clients' => $clients,
+            'notes' => $notes,
+            'stats' => $stats,
+            'average' => $note->average(),
+            'NPS' => $note->NPS()
+        ]);
     }
 }

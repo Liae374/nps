@@ -52,6 +52,7 @@
     d'un produit ou d'un service. Il est calculé à partir de l’intention de recommandation d'un produit, 
     d'un service, d'une marque ou d'une entreprise. 
     <a target="_blank" href="https://www.bluenote-systems.com/faq-crm-sugarcrm/nps-definition-utilisation.html">plus d'info</a></p>
+    <h3 class="display-6">Notes</h3>
     <table class="table table-hover" style="margin-bottom: 1.5rem;">
         <tr>
             <th scope="col">ID</th>
@@ -63,11 +64,11 @@
         @foreach($notes as $note)
             <tr>
                 <th scope="row">{{$note->id}}</th>
-                <th>{{$note->IDclient}}</th>
+                <th>{{$note->id_client}}</th>
                 <td>{{$note->rating}}</td>
-                <td>{{$note->updated_at}}</td>
+                <td>{{date('D d M Y H:i:s', strtotime($note->updated_at))}}</td>
                 <td>
-                    <form action="/admin/delete" method="post">
+                    <form action="/admin/deleteNote" method="post">
                         {{ csrf_field() }}
                         <button type="submit" class="btn btn-outline-danger btn-sm">supprimer</button>
                         <input type="hidden" value="{{ $note->id }}" name="id">
@@ -84,6 +85,33 @@
             </button>
         </div>
     @endif
+
+    <h3 class="display-6">Clients</h3>
+    <table class="table table-hover" style="margin-bottom: 1.5rem;">
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">nom</th>
+            <th scope="col">email</th>
+            <th scope="col">Date</th>
+            <th scope="col">Actions</th>
+        </tr>
+        @foreach($clients as $client)
+            <tr>
+                <th scope="row">{{$client->id}}</th>
+                <th>{{$client->name}}</th>
+                <th>{{$client->email}}</th>
+                <td>{{date('D d M Y H:i:s', strtotime($client->updated_at))}}</td>
+                <td>
+                    <form action="/admin/deleteClient" method="post">
+                        {{ csrf_field() }}
+                        <button type="submit" class="btn btn-outline-danger btn-sm">supprimer</button>
+                        <input type="hidden" value="{{ $client->id }}" name="id">
+                    </form>
+                </td>
+            </tr>
+        @endforeach
+    </table>
+
 
     <!-- Modal -->
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">

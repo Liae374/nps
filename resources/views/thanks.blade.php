@@ -28,7 +28,7 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
                     <button type="submit" class="btn btn-primary">Envoyer</button>
                 </div>
-                <input type="hidden" name="IDclient" value="{{ $IDclient }}">
+                <input type="hidden" name="id_client" value="{{ $id_client }}">
             </form>
         </div>
     </div>

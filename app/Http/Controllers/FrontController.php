@@ -27,10 +27,10 @@ class FrontController extends Controller
     */
     public function form() 
     {
-        $client = \App\Models\Client::where('IDclient', '=', request('IDclient'))->first();
+        $client = \App\Models\Client::where('id', '=', request('id_client'))->first();
         if ($client !== null) {
             return view('form', [
-                'IDclient' => request('IDclient')
+                'id_client' => request('id_client')
             ]);
         }
         return redirect('/')->withErrors(['login' => 'identifiant incorrect']);
@@ -48,12 +48,12 @@ class FrontController extends Controller
         } else {
             $note->rating = 0;
         }
-        $note->IDclient = request('IDclient');
+        $note->id_client = request('id_client');
         $note->save();
         return view('thanks', [
             'rating' => $note->rating,
             'id' => $note->id,
-            'IDclient' => request('IDclient')
+            'id_client' => request('id_client')
         ]);
     }
 
@@ -69,7 +69,7 @@ class FrontController extends Controller
         return view('thanks', [
             'id' => request('id'),
             'rating' => request('rating'),
-            'IDclient' => request('IDclient')
+            'id_client' => request('id_client')
         ]);
     }
 }

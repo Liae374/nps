@@ -6,7 +6,7 @@
     <form action="/client" method="post">
         {{ csrf_field() }}
         <div class="mb-3">
-            <input type="text" id="identifiant" name="IDclient" required class="form-control @error('login') is-invalid @enderror" placeholder="Identifiant">
+            <input type="text" id="identifiant" name="id_client" required class="form-control @error('login') is-invalid @enderror" placeholder="Identifiant">
             @error('login')
                 <div id="identifiant" class="invalid-feedback">
                     Identifiant incorrect.

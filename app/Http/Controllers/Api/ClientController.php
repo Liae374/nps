@@ -8,16 +8,22 @@ class ClientController extends Controller
 {
     /**
      * @OA\Post(
-     *      path="/client/{ID}",
+     *      path="/client",
      *      operationId="create",
      *      tags={"Client"},
      *      summary="Add new client",
      *      description="Ajoute un nouveau client. La variable ID repésente son identifiant.",
      *      
      *      @OA\Parameter(
-     *          name="ID",
-     *          in="path",
-     *          description="Identifiant du nouveau client",
+     *          name="email",
+     *          in="query",
+     *          description="Email du nouveau client",
+     *          required=true
+     *      ),
+     *      @OA\Parameter(
+     *          name="name",
+     *          in="query",
+     *          description="Nom du nouveau client",
      *          required=true
      *      ),
      *      @OA\Response(
@@ -33,30 +39,31 @@ class ClientController extends Controller
      *      )
      * )
      */
-    public function create(int $ID)
+    public function create()
     {
-        $client = \App\Models\Client::where('IDclient', '=', $ID)->first();
+        $client = \App\Models\Client::where('email', '=', request('email'))->first();
         if ($client !== null) {
             return response(['error' => 'Client already exists'], 400);
         } else {
-            $client = new \App\Models\Client;
-            $client->IDclient = $ID;
-            $client->save();
+            $client = \App\Models\Client::create([
+                'name' => request('name'),
+                'email' => request('email')
+            ]);
             return response($client, 201);
         }
     }
 
     /**
      * @OA\Get(
-     *      path="/client/{ID}",
+     *      path="/client",
      *      operationId="read",
      *      tags={"Client"},
      *      summary="Read client",
-     *      description="Retourne un client. La variable ID repésente l'identifiant du client concerné.",
+     *      description="Retourne un client. La variable id repésente l'identifiant du client concerné, si null retourne tous les clients contenus dans la base de donnée.",
      *      
      *      @OA\Parameter(
-     *          name="ID",
-     *          in="path",
+     *          name="id",
+     *          in="query",
      *          description="Identifiant du client",
      *          required=true
      *      ),
@@ -73,58 +80,25 @@ class ClientController extends Controller
      *      )
      * )
      */
-    public function read(int $ID)
+    public function read()
     {
-        $client = \App\Models\Client::where('IDclient', '=', $ID)->first();
-        if ($client == null) {
-            return response(['error' => 'Client not found'], 404);
-        } else {
-            return response($client, 200);
+        if (request('id') == null) {
+            return response(\App\Models\Client::All(), 200);
         }
-    }
-
-    /**
-     * @OA\Get(
-     *      path="/client",
-     *      operationId="readAll",
-     *      tags={"Client"},
-     *      summary="Read all clients",
-     *      description="Retourne tous les clients contenus dans la base de donnée.",
-     *      
-     *      @OA\Response(
-     *          response=200,
-     *          description="Successful operation",
-     *          @OA\MediaType(
-     *            mediaType="application/json",
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="not found"
-     *      )
-     * )
-     */
-    public function readAll()
-    {
-        $clients = \App\Models\Client::All();
-        if ($clients == null) {
-            return response('', 404);
-        } else {
-            return response($clients, 200);
-        }
+        return (\App\Models\Client::findOrFail(request('id')));
     }
 
     /**
      * @OA\Delete(
-     *      path="/client/{ID}",
+     *      path="/client",
      *      operationId="delete",
      *      tags={"Client"},
      *      summary="Delete client",
-     *      description="Supprime un client. La variable ID repésente l'identifiant du client concerné.",
+     *      description="Supprime un client. La variable id repésente l'identifiant du client concerné.",
      *      
      *      @OA\Parameter(
-     *          name="ID",
-     *          in="path",
+     *          name="id",
+     *          in="query",
      *          description="Identifiant du client",
      *          required=true
      *      ),
@@ -138,14 +112,10 @@ class ClientController extends Controller
      *      )
      * )
      */
-    public function delete(int $ID)
+    public function delete()
     {
-        $client = \App\Models\Client::where('IDclient', '=', $ID)->first();
-        if (empty($client)) {
-            return response(['error' => 'Client not found'], 404);
-        } else {
-            $client->delete();
-            return response('', 200);
-        }
+        $client = \App\Models\Client::findOrFail(request('id'));
+        $client->delete();
+        return response('', 200);
     }
 }

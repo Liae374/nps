@@ -8,11 +8,11 @@ class NoteController extends Controller
 {
     /**
      * @OA\Post(
-     *      path="/client/{ID}/note",
+     *      path="/note",
      *      operationId="create",
      *      tags={"Note"},
      *      summary="Add new Note",
-     *      description="Ajoute une nouvelle note. La variable ID repésente l'identifiant du client donnant la note.",
+     *      description="Ajoute une nouvelle note. La variable id_client repésente l'identifiant du client donnant la note.",
      *      
      *      @OA\Parameter(
      *          name="rating",
@@ -21,9 +21,9 @@ class NoteController extends Controller
      *          required=true
      *      ),
      *      @OA\Parameter(
-     *          name="ID",
-     *          in="path",
-     *          description="Identifiant de la note",
+     *          name="id_client",
+     *          in="query",
+     *          description="Identifiant du client",
      *          required=true
      *      ),
      *      @OA\Response(
@@ -43,35 +43,32 @@ class NoteController extends Controller
      *      )
      * )
      */
-    public function create(int $ID)
+    public function create()
     {
         $note = new \App\Models\Note;
-        $client = \App\Models\Client::where('IDclient', '=', $ID)->first();
-        if ($client == null) {
-            return response(['error' => 'Client not found'], 404);
+        $client = \App\Models\Client::findOrFail(request('id_client'));
+        if ((request('rating') >= 0) && (request('rating') <= 10)) {
+            $note = \App\Models\Note::create([
+                'rating' => request('rating'),
+                'id_client' => request('id_client')
+            ]);
+            return response($note,  201);
         } else {
-            if ((request('rating') >= 0) && (request('rating') <= 10)) {
-                $note->rating = request('rating');
-                $note->IDclient = $ID;
-                $note->save();
-                return response($note,  201);
-            } else {
-                return response(['error' => 'Wrong value'], 400);
-            }
+            return response(['error' => 'Wrong value'], 400);
         }
     }
 
     /**
      * @OA\Get(
-     *      path="/note/{ID}",
+     *      path="/note",
      *      operationId="read",
      *      tags={"Note"},
      *      summary="Read Note",
-     *      description="Retourne une note. La variable ID repésente l'identifiant de la note concernée.",
+     *      description="Retourne une note. La variable id repésente l'identifiant de la note concernée, si null retourne toutes les notes contenues dans la base de donnée.",
      *      
      *      @OA\Parameter(
-     *          name="ID",
-     *          in="path",
+     *          name="id",
+     *          in="query",
      *          description="Identifiant de la note",
      *          required=true
      *      ),
@@ -88,54 +85,21 @@ class NoteController extends Controller
      *      )
      * )
      */
-    public function read(int $ID)
+    public function read()
     {
-        $note = \App\Models\Note::find($ID);
-        if ($note == null) {
-            return response(['error' => 'Value not found'], 404);
-        } else {
-            return response($note, 200);
+        if (request('id') == null) {
+            return response(\App\Models\Note::All(), 200);
         }
-    }
-
-    /**
-     * @OA\Get(
-     *      path="/note",
-     *      operationId="readAll",
-     *      tags={"Note"},
-     *      summary="Read all Notes",
-     *      description="Retourne toutes les notes contenues dans la base de donnée.",
-     *      
-     *      @OA\Response(
-     *          response=200,
-     *          description="Successful operation",
-     *          @OA\MediaType(
-     *            mediaType="application/json",
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="not found"
-     *      )
-     * )
-     */
-    public function readAll()
-    {
-        $notes = \App\Models\Note::All();
-        if ($notes == null) {
-            return response(['error' => 'Value not found'], 404);
-        } else {
-            return response($notes, 200);
-        }
+        return (\App\Models\Note::findOrFail(request('id')));
     }
 
     /**
      * @OA\Put(
-     *      path="/note/{ID}",
+     *      path="/note",
      *      operationId="update",
      *      tags={"Note"},
      *      summary="Update Note",
-     *      description="Remplace la valeur 'rating' de la note obtenue par l'identifiant 'ID' par le paramètre 'rating'.",
+     *      description="Remplace la valeur 'rating' de la note obtenue par l'identifiant 'id' par le paramètre 'rating'.",
      *      @OA\Parameter(
      *          name="rating",
      *          in="query",
@@ -143,8 +107,8 @@ class NoteController extends Controller
      *          required=true
      *      ),
      *      @OA\Parameter(
-     *          name="ID",
-     *          in="path",
+     *          name="id",
+     *          in="query",
      *          description="Identifiant de la note",
      *          required=true
      *      ),
@@ -165,12 +129,10 @@ class NoteController extends Controller
      *      )
      * )
      */
-    public function update(int $ID)
+    public function update()
     {
-        $note = \App\Models\Note::find($ID);
-        if ($note == null) {
-            return response(['error' => 'Value not found'], 404);
-        } elseif ((request('rating') >= 0) && (request('rating') <= 10)) {
+        $note = \App\Models\Note::findOrFail(request('id'));
+        if ((request('rating') >= 0) && (request('rating') <= 10)) {
             $note->rating = request('rating');
             $note->save();
             return response($note, 201);
@@ -181,15 +143,15 @@ class NoteController extends Controller
 
     /**
      * @OA\Delete(
-     *      path="/note/{ID}",
+     *      path="/note",
      *      operationId="delete",
      *      tags={"Note"},
      *      summary="Delete Note",
-     *      description="Supprime une note. La variable ID repésente l'identifiant de la note concernée.",
+     *      description="Supprime une note. La variable id repésente l'identifiant de la note concernée.",
      *      
      *      @OA\Parameter(
-     *          name="ID",
-     *          in="path",
+     *          name="id",
+     *          in="query",
      *          description="Identifiant de la note",
      *          required=true
      *      ),
@@ -203,14 +165,10 @@ class NoteController extends Controller
      *      )
      * )
      */
-    public function delete(int $ID)
+    public function delete()
     {
-        $note = \App\Models\Note::find($ID);
-        if ($note == null) {
-            return response(['error' => 'Value not found'], 404);
-        } else {
-            $note->delete();
-            return response('', 200);
-        }
+        $note = \App\Models\Note::findOrFail(request('id'));
+        $note->delete();
+        return response('', 200);
     }
 }

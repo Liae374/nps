@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Note extends Model
 {
     use HasFactory;
-    
+    protected $fillable = ['rating', 'id_client'];
     /**
     * Retourne le nombre de detracteurs/passifs/promoteurs contenus dans la base de donnée.
     *
@@ -61,7 +61,7 @@ class Note extends Model
         if ($total==0) {
             return 'null';
         }
-        return ($pos/$total*100 - $neg/$total*100);
+        return round($pos/$total*100 - $neg/$total*100, 3);
     }
 
     /**
@@ -82,6 +82,6 @@ class Note extends Model
         if ($total==0) {
             return 'null';
         }
-        return $average/$total;
+        return round($average/$total, 3);
     }
 }

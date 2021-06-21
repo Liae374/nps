@@ -11,18 +11,18 @@
         }
     ],
     "paths": {
-        "/client/{ID}": {
+        "/client": {
             "get": {
                 "tags": [
                     "Client"
                 ],
                 "summary": "Read client",
-                "description": "Retourne un client. La variable ID repésente l'identifiant du client concerné.",
+                "description": "Retourne un client. La variable id repésente l'identifiant du client concerné, si null retourne tous les clients contenus dans la base de donnée.",
                 "operationId": "read",
                 "parameters": [
                     {
-                        "name": "ID",
-                        "in": "path",
+                        "name": "id",
+                        "in": "query",
                         "description": "Identifiant du client",
                         "required": true
                     }
@@ -48,9 +48,15 @@
                 "operationId": "create",
                 "parameters": [
                     {
-                        "name": "ID",
-                        "in": "path",
-                        "description": "Identifiant du nouveau client",
+                        "name": "email",
+                        "in": "query",
+                        "description": "Email du nouveau client",
+                        "required": true
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Nom du nouveau client",
                         "required": true
                     }
                 ],
@@ -71,12 +77,12 @@
                     "Client"
                 ],
                 "summary": "Delete client",
-                "description": "Supprime un client. La variable ID repésente l'identifiant du client concerné.",
+                "description": "Supprime un client. La variable id repésente l'identifiant du client concerné.",
                 "operationId": "delete",
                 "parameters": [
                     {
-                        "name": "ID",
-                        "in": "path",
+                        "name": "id",
+                        "in": "query",
                         "description": "Identifiant du client",
                         "required": true
                     }
@@ -91,77 +97,18 @@
                 }
             }
         },
-        "/client": {
-            "get": {
-                "tags": [
-                    "Client"
-                ],
-                "summary": "Read all clients",
-                "description": "Retourne tous les clients contenus dans la base de donnée.",
-                "operationId": "readAll",
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "404": {
-                        "description": "not found"
-                    }
-                }
-            }
-        },
-        "/client/{ID}/note": {
-            "post": {
-                "tags": [
-                    "Note"
-                ],
-                "summary": "Add new Note",
-                "description": "Ajoute une nouvelle note. La variable ID repésente l'identifiant du client donnant la note.",
-                "operationId": "create",
-                "parameters": [
-                    {
-                        "name": "rating",
-                        "in": "query",
-                        "description": "Valeur de la note",
-                        "required": true
-                    },
-                    {
-                        "name": "ID",
-                        "in": "path",
-                        "description": "Identifiant de la note",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "400": {
-                        "description": "Wrong value"
-                    },
-                    "404": {
-                        "description": "not found"
-                    }
-                }
-            }
-        },
-        "/note/{ID}": {
+        "/note": {
             "get": {
                 "tags": [
                     "Note"
                 ],
                 "summary": "Read Note",
-                "description": "Retourne une note. La variable ID repésente l'identifiant de la note concernée.",
+                "description": "Retourne une note. La variable id repésente l'identifiant de la note concernée, si null retourne toutes les notes contenues dans la base de donnée.",
                 "operationId": "read",
                 "parameters": [
                     {
-                        "name": "ID",
-                        "in": "path",
+                        "name": "id",
+                        "in": "query",
                         "description": "Identifiant de la note",
                         "required": true
                     }
@@ -183,7 +130,7 @@
                     "Note"
                 ],
                 "summary": "Update Note",
-                "description": "Remplace la valeur 'rating' de la note obtenue par l'identifiant 'ID' par le paramètre 'rating'.",
+                "description": "Remplace la valeur 'rating' de la note obtenue par l'identifiant 'id' par le paramètre 'rating'.",
                 "operationId": "update",
                 "parameters": [
                     {
@@ -193,9 +140,45 @@
                         "required": true
                     },
                     {
-                        "name": "ID",
-                        "in": "path",
+                        "name": "id",
+                        "in": "query",
                         "description": "Identifiant de la note",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "400": {
+                        "description": "Wrong value"
+                    },
+                    "404": {
+                        "description": "not found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Note"
+                ],
+                "summary": "Add new Note",
+                "description": "Ajoute une nouvelle note. La variable id_client repésente l'identifiant du client donnant la note.",
+                "operationId": "create",
+                "parameters": [
+                    {
+                        "name": "rating",
+                        "in": "query",
+                        "description": "Valeur de la note",
+                        "required": true
+                    },
+                    {
+                        "name": "id_client",
+                        "in": "query",
+                        "description": "Identifiant du client",
                         "required": true
                     }
                 ],
@@ -219,12 +202,12 @@
                     "Note"
                 ],
                 "summary": "Delete Note",
-                "description": "Supprime une note. La variable ID repésente l'identifiant de la note concernée.",
+                "description": "Supprime une note. La variable id repésente l'identifiant de la note concernée.",
                 "operationId": "delete",
                 "parameters": [
                     {
-                        "name": "ID",
-                        "in": "path",
+                        "name": "id",
+                        "in": "query",
                         "description": "Identifiant de la note",
                         "required": true
                     }
@@ -232,27 +215,6 @@
                 "responses": {
                     "200": {
                         "description": "Successful operation"
-                    },
-                    "404": {
-                        "description": "not found"
-                    }
-                }
-            }
-        },
-        "/note": {
-            "get": {
-                "tags": [
-                    "Note"
-                ],
-                "summary": "Read all Notes",
-                "description": "Retourne toutes les notes contenues dans la base de donnée.",
-                "operationId": "readAll",
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {}
-                        }
                     },
                     "404": {
                         "description": "not found"

@@ -22,7 +22,8 @@ Route::group([
         'middleware' => 'auth'
     ], function() {
         Route::get('/','BackController@admin')->name('admin');
-        Route::post('/delete', 'BackController@delete')->name('admin.delete');
+        Route::post('/deleteNote', 'BackController@deleteNote')->name('client.deleteNote');
+        Route::post('/deleteClient', 'BackController@deleteClient')->name('client.deleteClient');
         Route::post('/deleteAll', 'BackController@deleteAll')->name('admin.deleteAll');
         Route::post('/search', 'BackController@search')->name('search');
     });
@@ -37,7 +38,7 @@ Route::group([
         Route::post('/put', 'FrontController@put')->name('client.put');
     });
     Route::get('login', 'AuthController@index')->name('firstLogin');
-    Route::post('login', 'AuthController@login')->name('login'); 
+    Route::post('login', 'AuthController@login')->name('login');
     Route::get('logout', 'AuthController@logout')->name('logout');
     Route::get('/', 'FrontController@authentication')->name('home');
     //Route::get('registration', 'AuthController@registration')->name('register-user');
