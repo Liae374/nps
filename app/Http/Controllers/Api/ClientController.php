@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 
+use App\Models\Client;
+
+use Validator;
+
 class ClientController extends Controller
 {
     /**
@@ -12,18 +16,18 @@ class ClientController extends Controller
      *      operationId="create",
      *      tags={"Client"},
      *      summary="Add new client",
-     *      description="Ajoute un nouveau client. La variable ID repésente son identifiant.",
+     *      description="Add a new customer to the database.",
      *      
      *      @OA\Parameter(
      *          name="email",
      *          in="query",
-     *          description="Email du nouveau client",
+     *          description="Client email",
      *          required=true
      *      ),
      *      @OA\Parameter(
      *          name="name",
      *          in="query",
-     *          description="Nom du nouveau client",
+     *          description="Client name",
      *          required=true
      *      ),
      *      @OA\Response(
@@ -39,13 +43,18 @@ class ClientController extends Controller
      *      )
      * )
      */
-    public function create()
+    public function create(Request $request)
     {
-        $client = \App\Models\Client::where('email', '=', request('email'))->first();
-        if ($client !== null) {
-            return response(['error' => 'Client already exists'], 400);
-        } else {
-            $client = \App\Models\Client::create([
+        $rules = array(
+            'name' => 'required',
+            'email' => 'required|email'
+        );
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()){
+            return response($validator->errors(), 400);
+        }
+        else {
+            $client = Client::create([
                 'name' => request('name'),
                 'email' => request('email')
             ]);
@@ -55,16 +64,16 @@ class ClientController extends Controller
 
     /**
      * @OA\Get(
-     *      path="/client",
+     *      path="/client/{id}",
      *      operationId="read",
      *      tags={"Client"},
      *      summary="Read client",
-     *      description="Retourne un client. La variable id repésente l'identifiant du client concerné, si null retourne tous les clients contenus dans la base de donnée.",
+     *      description="Returns information about the client identified by 'id'.",
      *      
      *      @OA\Parameter(
      *          name="id",
-     *          in="query",
-     *          description="Identifiant du client",
+     *          in="path",
+     *          description="Client identifier",
      *          required=true
      *      ),
      *      @OA\Response(
@@ -76,30 +85,56 @@ class ClientController extends Controller
      *      ),
      *      @OA\Response(
      *          response=404,
-     *          description="not found"
+     *          description="Not found"
      *      )
      * )
      */
-    public function read()
+    public function read(int $id)
     {
-        if (request('id') == null) {
-            return response(\App\Models\Client::All(), 200);
+        if ($id == null) {
+            return response(Client::all(), 200);
         }
-        return (\App\Models\Client::findOrFail(request('id')));
+        return Client::findOrFail($id);
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/client",
+     *      operationId="index",
+     *      tags={"Client"},
+     *      summary="Reads all clients",
+     *      description="Returns all clients contained in the database",
+     *      
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\MediaType(
+     *            mediaType="application/json",
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not found"
+     *      )
+     * )
+     */
+    public function index()
+    {
+        return response(Client::all(), 200);
     }
 
     /**
      * @OA\Delete(
-     *      path="/client",
+     *      path="/client/{id}",
      *      operationId="delete",
      *      tags={"Client"},
      *      summary="Delete client",
-     *      description="Supprime un client. La variable id repésente l'identifiant du client concerné.",
+     *      description="Removes the client identified by 'id'.",
      *      
      *      @OA\Parameter(
      *          name="id",
-     *          in="query",
-     *          description="Identifiant du client",
+     *          in="path",
+     *          description="Client identifier",
      *          required=true
      *      ),
      *      @OA\Response(
@@ -108,14 +143,14 @@ class ClientController extends Controller
      *      ),
      *      @OA\Response(
      *          response=404,
-     *          description="not found"
+     *          description="Not found"
      *      )
      * )
      */
-    public function delete()
+    public function delete(int $id)
     {
-        $client = \App\Models\Client::findOrFail(request('id'));
+        $client = Client::findOrFail($id);
         $client->delete();
-        return response('', 200);
+        return response('Client successfully deleted', 200);
     }
 }

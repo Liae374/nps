@@ -24,16 +24,18 @@ Route::group([
     Route::group([
         'prefix' => 'note'
     ], function() {
-        Route::get('/', 'NoteController@read');
-        Route::put('/', 'NoteController@update');
-        Route::delete('/', 'NoteController@delete');
-        Route::post('/', 'NoteController@create');
+        Route::get('/{id}', 'NoteController@read');
+        Route::get('/', 'NoteController@index');
+        Route::put('/{id}', 'NoteController@update');
+        Route::delete('/{id}', 'NoteController@delete');
     });
     Route::group([
         'prefix' => 'client'
     ], function() {
         Route::post('/', 'ClientController@create');
-        Route::get('/', 'ClientController@read');
-        Route::delete('/', 'ClientController@delete');
+        Route::get('/{id}', 'ClientController@read');
+        Route::delete('/{id}', 'ClientController@delete');
+        Route::get('/', 'ClientController@index');
+        Route::post('/{id}', 'NoteController@create');
     });
 });

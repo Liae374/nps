@@ -82,4 +82,26 @@ class BackController extends Controller
             'NPS' => $note->NPS()
         ]);
     }
+
+    public function registrationClient()
+    {
+        return view ('registrationClient', []);
+    }
+    
+    public function registeredClient(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => 'required|unique:clients|email',
+            'name' => 'required'
+        ]);
+
+        $client = \App\Models\Client::create([
+            'name' => request('name'),
+            'email' => request('email')
+        ]);
+
+        return view('registeredClient', [
+            'id' => $client->id
+        ]);
+    }
 }

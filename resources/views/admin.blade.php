@@ -112,6 +112,11 @@
         @endforeach
     </table>
 
+    <div class="d-grid gap-2 col-6 mx-auto">
+        <button style="margin-bottom: 2rem;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">
+            Ajouter un client
+        </button>
+    </div>
 
     <!-- Modal -->
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -133,6 +138,38 @@
                         </div>
                     </form>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="post" action="{{ route('register-client') }}">
+                {{ csrf_field() }}
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Ajout d'un client</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <input type="text" name="name" placeholder="Nom" id="name" required class="form-control @error('name') is-invalid @enderror ">
+                        </div>
+                        <div class="mb-3">
+                            <input type="email" name="email" placeholder="Email" id="email" required class="form-control @error('email') is-invalid @enderror ">
+                            @if ($errors->has('email'))
+                                <span class="text-danger">L'adresse mail est déjà utilisée.</span>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <div>
+                            <input type="submit" class="btn btn-primary" value="Ajouter">
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

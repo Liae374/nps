@@ -41,6 +41,8 @@ Route::group([
     Route::post('login', 'AuthController@login')->name('login');
     Route::get('logout', 'AuthController@logout')->name('logout');
     Route::get('/', 'FrontController@authentication')->name('home');
-    //Route::get('registration', 'AuthController@registration')->name('register-user');
-    //Route::post('custom-registration', 'AuthController@customRegistration')->name('register.custom'); 
+    Route::get('registrationClient', 'BackController@registrationClient')->name('register-client');
+    Route::post('registrationClient', 'BackController@registeredClient')->name('register-client');
+    //Route::get('registrationAdmin', 'AuthController@registration')->name('register-admin');
+    //Route::post('registrationAdmin', 'AuthController@registered')->name('register-admin'); 
 });

@@ -58,7 +58,7 @@ class AuthController extends Controller
     /**
      * Enregistre l'utilisateur, et redirige vers la page admin.
      */
-    public function customRegistration(Request $request)
+    public function registered(Request $request)
     {  
         $request->validate([
             'name' => 'required',
