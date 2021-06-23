@@ -22,26 +22,26 @@ Route::group([
         'middleware' => 'auth'
     ], function() {
         Route::get('/','BackController@admin')->name('admin');
-        Route::post('/deleteNote', 'BackController@deleteNote')->name('client.deleteNote');
-        Route::post('/deleteClient', 'BackController@deleteClient')->name('client.deleteClient');
+        Route::post('/deleteNote/{id}', 'BackController@deleteNote')->name('admin.deleteNote');
+        Route::post('/deleteClient/{id}', 'BackController@deleteClient')->name('admin.deleteClient');
         Route::post('/deleteAll', 'BackController@deleteAll')->name('admin.deleteAll');
         Route::post('/search', 'BackController@search')->name('search');
     });
     Route::group([
         'prefix' => '/client',
     ], function() {
-        Route::get('/{id}', 'FrontController@form')->name('client.id');
+        Route::get('/{id}', 'FrontController@form')->name('client');
         Route::post('/', 'FrontController@form')->name('client');
         Route::get('/', 'FrontController@authentication')->name('authentication');
-        Route::post('/thanks', 'FrontController@thanks')->name('client.thanks');
-        Route::post('/delete', 'FrontController@delete')->name('client.delete');
-        Route::post('/put', 'FrontController@put')->name('client.put');
+        Route::post('/thanks/{id_client}', 'FrontController@thanks')->name('client.thanks');
+        Route::post('/delete/{id}', 'FrontController@destroy')->name('client.destroy');
+        Route::post('/update/{id_client}', 'FrontController@update')->name('client.update');
     });
-    Route::get('login', 'AuthController@index')->name('firstLogin');
+    Route::get('login', 'AuthController@index')->name('login');
     Route::post('login', 'AuthController@login')->name('login');
     Route::get('logout', 'AuthController@logout')->name('logout');
     Route::get('/', 'FrontController@authentication')->name('home');
-    Route::get('registrationClient', 'BackController@registrationClient')->name('register-client');
+    //Route::get('registrationClient', 'BackController@registrationClient')->name('register-client');
     Route::post('registrationClient', 'BackController@registeredClient')->name('register-client');
     //Route::get('registrationAdmin', 'AuthController@registration')->name('register-admin');
     //Route::post('registrationAdmin', 'AuthController@registered')->name('register-admin'); 

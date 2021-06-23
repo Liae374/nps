@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Models\Client;
+
+use App\Models\Note;
+
 class FrontController extends Controller
 {
     /**
@@ -14,11 +18,14 @@ class FrontController extends Controller
         return view('authentication', []);
     }
 
-    public function delete()
+    /**
+     * Supprime la note possédant l'identifiant 'id'.
+     */
+    public function destroy(int $id)
     {
-        $note = \App\Models\Note::find(request('id'));
+        $note = Note::find($id);
         $note->delete();
-        return redirect('/client');
+        return redirect('/client')->withSuccess('Note successfully deleted');
     }
 
     /**
@@ -27,7 +34,7 @@ class FrontController extends Controller
     */
     public function form() 
     {
-        $client = \App\Models\Client::where('id', '=', request('id_client'))->first();
+        $client = Client::where('id', '=', request('id_client'))->first();
         if ($client !== null) {
             return view('form', [
                 'id_client' => request('id_client')
@@ -40,20 +47,20 @@ class FrontController extends Controller
      * Enregistre la note dans la base de donnée,
      * puis affiche la page de remerciement.
      */
-    public function thanks()
+    public function thanks(int $id_client)
     {
-        $note = new \App\Models\Note;
+        $note = new Note;
         if (request('rating') !== null){
             $note->rating = request('rating');
         } else {
             $note->rating = 0;
         }
-        $note->id_client = request('id_client');
+        $note->id_client = $id_client;
         $note->save();
         return view('thanks', [
             'rating' => $note->rating,
             'id' => $note->id,
-            'id_client' => request('id_client')
+            'id_client' => $id_client
         ]);
     }
 
@@ -61,15 +68,15 @@ class FrontController extends Controller
      * Modifie la valeur d'une note déjà enregistrée dans la base de donnée,
      * et réaffiche la page de remerciement.
      */
-    public function put()
+    public function update(int $id_client)
     {
-        $note = \App\Models\Note::find(request('id'));
+        $note = Note::find(request('id'));
         $note->rating = request('rating');
         $note->save();
         return view('thanks', [
             'id' => request('id'),
             'rating' => request('rating'),
-            'id_client' => request('id_client')
+            'id_client' => $id_client
         ]);
     }
 }

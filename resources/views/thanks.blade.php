@@ -16,7 +16,7 @@
                 <h5 class="modal-title" id="exampleModalLabel">Modifier</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="post" action="/client/put">
+            <form method="post" action="{{ route('client.update', [$id]) }}">
                 {{ csrf_field() }}
                 <div class="modal-body">
                     <div class="input-group">
@@ -46,7 +46,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                <form method="post" action="/client/delete">
+                <form method="post" action="{{ route('client.destroy', [$id]) }}">
                     {{ csrf_field() }}
                     <div>
                         <input type="submit" class="btn btn-danger" value="Supprimer">
@@ -57,7 +57,4 @@
         </div>
     </div>
 </div>
-
-
-
 @endsection

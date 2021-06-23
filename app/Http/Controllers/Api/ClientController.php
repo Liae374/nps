@@ -45,15 +45,14 @@ class ClientController extends Controller
      */
     public function create(Request $request)
     {
-        $rules = array(
+        $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'email' => 'required|email'
-        );
-        $validator = Validator::make($request->all(), $rules);
+            'email' => 'required|email|unique:clients'
+        ]);
+
         if ($validator->fails()){
             return response($validator->errors(), 400);
-        }
-        else {
+        } else {
             $client = Client::create([
                 'name' => request('name'),
                 'email' => request('email')
@@ -91,9 +90,6 @@ class ClientController extends Controller
      */
     public function read(int $id)
     {
-        if ($id == null) {
-            return response(Client::all(), 200);
-        }
         return Client::findOrFail($id);
     }
 

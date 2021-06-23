@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Models\Note;
+
+use App\Models\Client;
+
 class BackController extends Controller
 {
     /**
@@ -12,9 +16,9 @@ class BackController extends Controller
      */
     public function admin() 
     {
-        $notes = \App\Models\Note::all();
-        $clients = \App\Models\Client::all();
-        $note = new \App\Models\Note;
+        $notes = Note::all();
+        $clients = Client::all();
+        $note = new Note;
         $stats = $note->stats();
         return view('admin', [
             'clients' => $clients,
@@ -29,22 +33,22 @@ class BackController extends Controller
      * Supprime la note possédant l'identifiant 'id',
      * puis redirige vers la page admin.
      */
-    public function deleteNote()
+    public function deleteNote(int $id)
     {
-        $note = \App\Models\Note::find(request('id'));
+        $note = Note::find($id);
         $note->delete();
-        return redirect('/admin');
+        return redirect('/admin')->withSuccess('Note successfully deleted');
     }
 
     /**
      * Supprime le client possédant l'identifiant 'id' et les notes qui lui sont associées,
      * puis redirige vers la page admin.
      */
-    public function deleteClient()
+    public function deleteClient(int $id)
     {
-        $client = \App\Models\Client::find(request('id'));
+        $client = Client::find($id);
         $client->delete();
-        return redirect('/admin');
+        return redirect('/admin')->withSuccess('Client successfully deleted');
     }
 
     /**
@@ -53,8 +57,8 @@ class BackController extends Controller
      */
     public function deleteAll()
     {
-        \App\Models\Note::query()->truncate();
-        return redirect('/admin');
+        Note::query()->truncate();
+        return redirect('/admin')->withSuccess('All notes have been deleted');
     }
 
     /**
@@ -62,10 +66,10 @@ class BackController extends Controller
      */
     public function search()
     {
-        $note = new \App\Models\Note;
+        $note = new Note;
         $stats = $note->stats();
-        $notes = \App\Models\Note::where('id_client', '=', request('id'))->get();
-        $clients = \App\Models\Client::find(request('id'));
+        $notes = Note::where('id_client', '=', request('id'))->get();
+        $clients = Client::find(request('id'));
         if ($notes == null) {
             $notes = [];
         }
@@ -83,25 +87,20 @@ class BackController extends Controller
         ]);
     }
 
-    public function registrationClient()
-    {
-        return view ('registrationClient', []);
-    }
-    
+    /**
+     * Enregistre un nouveau client,
+     * puis redirige vers la page admin.
+     */
     public function registeredClient(Request $request)
     {
         $validated = $request->validate([
             'email' => 'required|unique:clients|email',
             'name' => 'required'
         ]);
-
-        $client = \App\Models\Client::create([
+        $client = Client::create([
             'name' => request('name'),
             'email' => request('email')
         ]);
-
-        return view('registeredClient', [
-            'id' => $client->id
-        ]);
+        return redirect('/admin')->withSuccess('Client added successfully');
     }
 }

@@ -63,14 +63,14 @@
         </tr>
         @foreach($notes as $note)
             <tr>
-                <th scope="row">{{$note->id}}</th>
-                <th>{{$note->id_client}}</th>
-                <td>{{$note->rating}}</td>
-                <td>{{date('D d M Y H:i:s', strtotime($note->updated_at))}}</td>
+                <th scope="row">{{ $note->id }}</th>
+                <th>{{ $note->id_client }}</th>
+                <td>{{ $note->rating }}</td>
+                <td>{{ $note->updated_at->locale('fr_FR')->setTimezone('Europe/Paris')->isoFormat('LLLL:ss') }}</td>
                 <td>
-                    <form action="/admin/deleteNote" method="post">
+                    <form action="/admin/deleteNote/{{ $note->id }}" method="post">
                         {{ csrf_field() }}
-                        <button type="submit" class="btn btn-outline-danger btn-sm">supprimer</button>
+                        <button type="submit" class="btn btn-outline-danger btn-sm">Supprimer</button>
                         <input type="hidden" value="{{ $note->id }}" name="id">
                     </form>
                 </td>
@@ -97,14 +97,14 @@
         </tr>
         @foreach($clients as $client)
             <tr>
-                <th scope="row">{{$client->id}}</th>
-                <th>{{$client->name}}</th>
-                <th>{{$client->email}}</th>
-                <td>{{date('D d M Y H:i:s', strtotime($client->updated_at))}}</td>
+                <th scope="row">{{ $client->id }}</th>
+                <th>{{ $client->name }}</th>
+                <th>{{ $client->email }}</th>
+                <td>{{ $client->updated_at->locale('fr_FR')->setTimezone('Europe/Paris')->isoFormat('LLLL:ss') }}</td>
                 <td>
-                    <form action="/admin/deleteClient" method="post">
+                    <form action="/admin/deleteClient/{{ $client->id }}" method="post">
                         {{ csrf_field() }}
-                        <button type="submit" class="btn btn-outline-danger btn-sm">supprimer</button>
+                        <button type="submit" class="btn btn-outline-danger btn-sm">Supprimer</button>
                         <input type="hidden" value="{{ $client->id }}" name="id">
                     </form>
                 </td>
@@ -130,7 +130,7 @@
                     Êtes-vous sûr?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
                     <form method="post" action="/admin/deleteAll">
                         {{ csrf_field() }}
                         <div>
@@ -164,7 +164,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
                         <div>
                             <input type="submit" class="btn btn-primary" value="Ajouter">
                         </div>

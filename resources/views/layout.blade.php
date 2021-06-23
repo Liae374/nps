@@ -92,14 +92,14 @@
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <span class="navbar-brand mb-0 h1" href="/index.php?action=admin">NPS</span>
+                <span class="navbar-brand mb-0 h1" href="{{ route('home') }}">NPS</span>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="/client">Client</a>
+                            <a class="nav-link" aria-current="page" href="{{ route('client') }}">Client</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="/admin">Admin</a>
+                            <a class="nav-link" aria-current="page" href="{{ route('admin') }}">Admin</a>
                         </li>
                         @if (Auth::check()) 
                             <li class="nav-item dropdown" style="position: relative;">
@@ -118,7 +118,7 @@
                     </ul>
                 </div>
                 @if (Auth::check())
-                    <form method="post" action="/admin/search" class="d-flex">
+                    <form method="post" action="{{ route('search') }}" class="d-flex">
                         {{ csrf_field() }}
                         <input class="form-control me-2" id="id" required min="0" type="number" placeholder="n°ID Client" aria-label="Search" name="id">
                         <button class="btn btn-outline-primary" type="submit">Rechercher</button>

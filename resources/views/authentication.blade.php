@@ -3,7 +3,7 @@
 @section('content')
 <div class="body">
     <h4 style="margin-bottom: 1.5rem;margin-top: 1.5rem;">Veuillez entrer votre identifiant client : </h4>
-    <form action="/client" method="post">
+    <form action="{{ route('client') }}" method="post">
         {{ csrf_field() }}
         <div class="mb-3">
             <input type="text" id="identifiant" name="id_client" required class="form-control @error('login') is-invalid @enderror" placeholder="Identifiant">
