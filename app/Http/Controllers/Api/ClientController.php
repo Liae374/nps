@@ -99,7 +99,7 @@ class ClientController extends Controller
      *      operationId="index",
      *      tags={"Client"},
      *      summary="Reads all clients",
-     *      description="Returns all clients contained in the database",
+     *      description="Returns all clients contained in the database.",
      *      
      *      @OA\Response(
      *          response=200,

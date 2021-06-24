@@ -107,9 +107,9 @@ class NoteController extends Controller
      * @OA\Get(
      *      path="/note",
      *      operationId="index",
-     *      tags={"Client"},
+     *      tags={"Note"},
      *      summary="Reads all notes",
-     *      description="Returns all notes contained in the database",
+     *      description="Returns all notes contained in the database.",
      *      
      *      @OA\Response(
      *          response=200,

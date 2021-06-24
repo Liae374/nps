@@ -12,7 +12,7 @@ class Controller extends BaseController
     /**
      * @OA\Info(
      *      version="1.0.0",
-     *      title="Api Documentation"
+     *      title="NPS API Documentation"
      * )
      * @OA\Server(
      *      url=L5_SWAGGER_CONST_HOST,

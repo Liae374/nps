@@ -17,7 +17,7 @@
                     "Client"
                 ],
                 "summary": "Reads all clients",
-                "description": "Returns all clients contained in the database",
+                "description": "Returns all clients contained in the database.",
                 "operationId": "index",
                 "responses": {
                     "200": {
@@ -123,7 +123,7 @@
                 "tags": [
                     "Note"
                 ],
-                "summary": "Add new Note",
+                "summary": "Add new note",
                 "description": "Add a new note to the database. The 'id' variable represents the identifier of the client concerned.",
                 "operationId": "create",
                 "parameters": [
@@ -161,7 +161,7 @@
                 "tags": [
                     "Note"
                 ],
-                "summary": "Read Note",
+                "summary": "Read note",
                 "description": "Returns information about the note identified by 'id'.",
                 "operationId": "read",
                 "parameters": [
@@ -188,7 +188,7 @@
                 "tags": [
                     "Note"
                 ],
-                "summary": "Update Note",
+                "summary": "Update note",
                 "description": "Replaces the 'rating' value of the note obtained with the 'id' identifier by the 'rating' parameter.",
                 "operationId": "update",
                 "parameters": [
@@ -224,7 +224,7 @@
                 "tags": [
                     "Note"
                 ],
-                "summary": "Delete Note",
+                "summary": "Delete note",
                 "description": "Removes the note identified by 'id'.",
                 "operationId": "delete",
                 "parameters": [
@@ -248,10 +248,10 @@
         "/note": {
             "get": {
                 "tags": [
-                    "Client"
+                    "Note"
                 ],
                 "summary": "Reads all notes",
-                "description": "Returns all notes contained in the database",
+                "description": "Returns all notes contained in the database.",
                 "operationId": "index",
                 "responses": {
                     "200": {
