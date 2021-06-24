@@ -50,7 +50,7 @@ A few of the things you can do with NPS:
 
 ## API
 
-The documentation can be found at /api/documentation after launching the app.
+The documentation can be found at `/api/documentation` after launching the app.
 
 ## Setup
 
