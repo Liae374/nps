@@ -46,31 +46,4 @@ class AuthController extends Controller
         Auth::logout();
         return view('logout');
     }
-
-    /**
-     * Affiche la vue d'enregistrement.
-     */
-    public function registration()
-    {
-        return view('registration');
-    }
-
-    /**
-     * Enregistre l'utilisateur, et redirige vers la page admin.
-     */
-    public function registered(Request $request)
-    {  
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6',
-        ]);
-        $data = $request->all();
-        $check = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password'])
-        ]);
-        return redirect('admin')->withSuccess('You have signed-in');
-    }
 }

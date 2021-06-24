@@ -24,18 +24,18 @@ Route::group([
     Route::group([
         'prefix' => 'note'
     ], function() {
-        Route::get('/{id}', 'NoteController@read');
-        Route::get('/', 'NoteController@index');
-        Route::put('/{id}', 'NoteController@update');
-        Route::delete('/{id}', 'NoteController@delete');
+        Route::get('/{id}', 'NoteController@read')->name('note.read');
+        Route::get('/', 'NoteController@index')->name('note.index');
+        Route::put('/{id}', 'NoteController@update')->name('note.update');
+        Route::delete('/{id}', 'NoteController@delete')->name('note.delete');
     });
     Route::group([
         'prefix' => 'client'
     ], function() {
-        Route::post('/', 'ClientController@create');
-        Route::get('/{id}', 'ClientController@read');
-        Route::delete('/{id}', 'ClientController@delete');
-        Route::get('/', 'ClientController@index');
-        Route::post('/{id}', 'NoteController@create');
+        Route::post('/', 'ClientController@create')->name('client.create');
+        Route::get('/{id}', 'ClientController@read')->name('client.read');
+        Route::delete('/{id}', 'ClientController@delete')->name('client.delete');
+        Route::get('/', 'ClientController@index')->name('client.index');
+        Route::post('/{id}', 'NoteController@create')->name('note.create');
     });
 });

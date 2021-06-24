@@ -107,12 +107,12 @@
                                     Compte
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdownMenuLink">
-                                    <li><a class="dropdown-item" href="logout">Déconnexion</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('logout') }}">Déconnexion</a></li>
                                 </ul>
                             </li>
                         @else
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="login">Se connecter</a>
+                                <a class="nav-link" aria-current="page" href="{{ route('login') }}">Se connecter</a>
                             </li>
                         @endif
                     </ul>

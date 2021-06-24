@@ -34,10 +34,10 @@ class FrontController extends Controller
     */
     public function form() 
     {
-        $client = Client::where('id', '=', request('id_client'))->first();
+        $client = Client::where('email', '=', request('email'))->first();
         if ($client !== null) {
             return view('form', [
-                'id_client' => request('id_client')
+                'id_client' => $client->id
             ]);
         }
         return redirect('/')->withErrors(['login' => 'identifiant incorrect']);

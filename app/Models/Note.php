@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Note;
 
 class Note extends Model
 {
@@ -16,25 +17,24 @@ class Note extends Model
     */
     function stats()
     {
-        $notes = \App\Models\Note::all();
-        $total = 0;
-        $neg = 0;
-        $pos = 0;
-        $pass = 0;
-        foreach ($notes as $row) {
-            $total += 1;
-            if ($row['rating'] <= 6) {
-                $neg += 1;
-            } elseif ($row['rating'] >= 9) {
-                $pos += 1;
+        $notes = Note::all();
+        $detracteurs = 0;
+        $promoteurs = 0;
+        $passifs = 0;
+
+        foreach ($notes as $note) {
+            if ($note['rating'] <= 6) {
+                $detracteurs += 1;
+            } elseif ($note['rating'] >= 9) {
+                $promoteurs += 1;
             } else {
-                $pass += 1;
+                $passifs += 1;
             }
         }
-        $co = null;
-        $all['promoteurs'] = $pos;
-        $all['detracteurs'] = $neg;
-        $all['passifs'] = $pass;
+
+        $all['promoteurs'] = $promoteurs;
+        $all['detracteurs'] = $detracteurs;
+        $all['passifs'] = $passifs;
         return $all;
     }
 
@@ -45,23 +45,24 @@ class Note extends Model
     */
     function NPS()
     {
-        $notes = \App\Models\Note::all();
+        $notes = Note::all();
         $total = 0;
-        $neg = 0;
-        $pos = 0;
-        foreach ($notes as $row) {
+        $detracteurs = 0;
+        $promoteurs = 0;
+
+        foreach ($notes as $note) {
             $total += 1;
-            if ($row['rating'] <= 6) {
-                $neg += 1;
-            } elseif ($row['rating'] >= 9) {
-                $pos += 1;
+            if ($note['rating'] <= 6) {
+                $detracteurs += 1;
+            } elseif ($note['rating'] >= 9) {
+                $promoteurs += 1;
             }
         } 
-        $co = null;
-        if ($total==0) {
-            return 'null';
+        
+        if ($total == 0) {
+            return 'Aucune note';
         }
-        return round($pos/$total*100 - $neg/$total*100, 3);
+        return round($promoteurs/$total*100 - $detracteurs/$total*100, 3);
     }
 
     /**
@@ -71,16 +72,17 @@ class Note extends Model
     */
     function average()
     {
-        $notes = \App\Models\Note::all();
+        $notes = Note::all();
         $total = 0;
         $average = 0;
-        foreach ($notes as $row) {
-            $average += $row['rating'];
+
+        foreach ($notes as $note) {
+            $average += $note['rating'];
             $total += 1;
         } 
-        $co = null;
-        if ($total==0) {
-            return 'null';
+
+        if ($total == 0) {
+            return 'Aucune note';
         }
         return round($average/$total, 3);
     }

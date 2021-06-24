@@ -6,10 +6,10 @@
     <form action="{{ route('client') }}" method="post">
         {{ csrf_field() }}
         <div class="mb-3">
-            <input type="text" id="identifiant" name="id_client" required class="form-control @error('login') is-invalid @enderror" placeholder="Identifiant">
+            <input type="teext" id="email" name="email" required class="form-control @error('login') is-invalid @enderror" placeholder="Email">
             @error('login')
-                <div id="identifiant" class="invalid-feedback">
-                    Identifiant incorrect.
+                <div id="email" class="invalid-feedback">
+                    Adresse mail incorrecte.
                 </div>
             @enderror
         </div>

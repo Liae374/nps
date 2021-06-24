@@ -53,64 +53,70 @@
     d'un service, d'une marque ou d'une entreprise. 
     <a target="_blank" href="https://www.bluenote-systems.com/faq-crm-sugarcrm/nps-definition-utilisation.html">plus d'info</a></p>
     <h3 class="display-6">Notes</h3>
-    <table class="table table-hover" style="margin-bottom: 1.5rem;">
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">ID Client</th>
-            <th scope="col">Note</th>
-            <th scope="col">Date</th>
-            <th scope="col">Actions</th>
-        </tr>
-        @foreach($notes as $note)
+    @if ($notes->isNotEmpty())
+        <table class="table table-hover" style="margin-bottom: 1.5rem;">
             <tr>
-                <th scope="row">{{ $note->id }}</th>
-                <th>{{ $note->id_client }}</th>
-                <td>{{ $note->rating }}</td>
-                <td>{{ $note->updated_at->locale('fr_FR')->setTimezone('Europe/Paris')->isoFormat('LLLL:ss') }}</td>
-                <td>
-                    <form action="/admin/deleteNote/{{ $note->id }}" method="post">
-                        {{ csrf_field() }}
-                        <button type="submit" class="btn btn-outline-danger btn-sm">Supprimer</button>
-                        <input type="hidden" value="{{ $note->id }}" name="id">
-                    </form>
-                </td>
+                <th scope="col">ID</th>
+                <th scope="col">ID Client</th>
+                <th scope="col">Note</th>
+                <th scope="col">Date</th>
+                <th scope="col">Actions</th>
             </tr>
-        @endforeach
-    </table>
+            @foreach($notes as $note)
+                <tr>
+                    <th scope="row">{{ $note->id }}</th>
+                    <th>{{ $note->id_client }}</th>
+                    <td>{{ $note->rating }}</td>
+                    <td>{{ $note->updated_at->locale('fr_FR')->setTimezone('Europe/Paris')->isoFormat('LLLL:ss') }}</td>
+                    <td>
+                        <form action="/admin/deleteNote/{{ $note->id }}" method="post">
+                            {{ csrf_field() }}
+                            <button type="submit" class="btn btn-outline-danger btn-sm">Supprimer</button>
+                            <input type="hidden" value="{{ $note->id }}" name="id">
+                        </form>
+                    </td>
+                </tr>
+            @endforeach
+        </table>
 
-    @if (!(($stats['detracteurs'] == '0') && ($stats['passifs'] == '0') && ($stats['promoteurs'] == '0')))
         <div class="d-grid gap-2 col-6 mx-auto">
             <button style="margin-bottom: 2rem;" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                 Supprimer tout
             </button>
         </div>
+    @else
+        <p style="text-align:center">Aucune note enregistrée.</p>
     @endif
 
     <h3 class="display-6">Clients</h3>
-    <table class="table table-hover" style="margin-bottom: 1.5rem;">
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">nom</th>
-            <th scope="col">email</th>
-            <th scope="col">Date</th>
-            <th scope="col">Actions</th>
-        </tr>
-        @foreach($clients as $client)
+    @if ($clients->isNotEmpty())
+        <table class="table table-hover" style="margin-bottom: 1.5rem;">
             <tr>
-                <th scope="row">{{ $client->id }}</th>
-                <th>{{ $client->name }}</th>
-                <th>{{ $client->email }}</th>
-                <td>{{ $client->updated_at->locale('fr_FR')->setTimezone('Europe/Paris')->isoFormat('LLLL:ss') }}</td>
-                <td>
-                    <form action="/admin/deleteClient/{{ $client->id }}" method="post">
-                        {{ csrf_field() }}
-                        <button type="submit" class="btn btn-outline-danger btn-sm">Supprimer</button>
-                        <input type="hidden" value="{{ $client->id }}" name="id">
-                    </form>
-                </td>
+                <th scope="col">ID</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Email</th>
+                <th scope="col">Date</th>
+                <th scope="col">Actions</th>
             </tr>
-        @endforeach
-    </table>
+            @foreach($clients as $client)
+                <tr>
+                    <th scope="row">{{ $client->id }}</th>
+                    <th>{{ $client->name }}</th>
+                    <th>{{ $client->email }}</th>
+                    <td>{{ $client->updated_at->locale('fr_FR')->setTimezone('Europe/Paris')->isoFormat('LLLL:ss') }}</td>
+                    <td>
+                        <form action="/admin/deleteClient/{{ $client->id }}" method="post">
+                            {{ csrf_field() }}
+                            <button type="submit" class="btn btn-outline-danger btn-sm">Supprimer</button>
+                            <input type="hidden" value="{{ $client->id }}" name="id">
+                        </form>
+                    </td>
+                </tr>
+            @endforeach
+        </table>
+    @else
+        <p style="text-align:center">Aucun client enregistré.</p>
+    @endif
 
     <div class="d-grid gap-2 col-6 mx-auto">
         <button style="margin-bottom: 2rem;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">
