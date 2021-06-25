@@ -19,12 +19,20 @@
             <form method="post" action="{{ route('client.update', [$id]) }}">
                 {{ csrf_field() }}
                 <div class="modal-body">
-                    <div class="input-group">
+                    <p>Sur une échelle de 0 à 10, quelle est la probabilité que vous recommandiez nos services à un proche?</p>
+                    <!-- <div class="input-group">
                         <input type="number" required max="10" min="0" class="form-control" name="rating">
-                        <input type="hidden" name="id" value="<?= $id ?>">
+                        <input type="hidden" name="id" value="<?= ''//$id ?>">
+                    </div> -->
+                    <div class="rating2" style="margin-left: 47px;margin-right: 47px;margin-bottom: 15px;">
+                        @for($i = 10; $i >= 1; $i--)  
+                            <input type="radio" id="star{{ $i }}" name="rating" value="{{ $i }}"/>
+                            <label for="star{{ $i }}">{{ $i }} stars</label>
+                        @endfor
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <input type="hidden" name="id" value="<?= $id ?>">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
                     <button type="submit" class="btn btn-primary">Envoyer</button>
                 </div>

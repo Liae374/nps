@@ -13,6 +13,59 @@
                 margin-right: auto;
                 margin-left: auto;
             }
+            .rating2 {
+                float:left;
+            }
+
+            /* :not(:checked) is a filter, so that browsers that don’t support :checked don’t 
+            follow these rules. Every browser that supports :checked also supports :not(), so
+            it doesn’t make the test unnecessarily selective */
+            .rating2:not(:checked) > input {
+                position:absolute;
+                clip:rect(0,0,0,0);
+            }
+
+            .rating2:not(:checked) > label {
+                float:right; 
+                width:1em;
+                /* padding:0 .1em; */
+                overflow:hidden;
+                white-space:nowrap;
+                cursor:pointer;
+                font-size:230%;
+                /* line-height:1.2; */
+                color:#ddd;
+            }
+
+            .rating2:not(:checked) > label:before {
+                content: '★ ';
+            }
+
+            .rating2 > input:checked ~ label {
+                color: dodgerblue;
+                
+            }
+
+            .rating2:not(:checked) > label:hover,
+            .rating2:not(:checked) > label:hover ~ label {
+                color: dodgerblue;
+                
+            }
+
+            .rating2 > input:checked + label:hover,
+            .rating2 > input:checked + label:hover ~ label,
+            .rating2 > input:checked ~ label:hover,
+            .rating2 > input:checked ~ label:hover ~ label,
+            .rating2 > label:hover ~ input:checked ~ label {
+                color: dodgerblue;
+                
+            }
+
+            .rating2 > label:active {
+                position:relative;
+                top:2px;
+                left:2px;
+            }
 
             .rating {
                 float:left;

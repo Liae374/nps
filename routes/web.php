@@ -30,7 +30,7 @@ Route::group([
     Route::group([
         'prefix' => '/client',
     ], function() {
-        Route::get('/{id}', 'FrontController@form')->name('client');
+        Route::get('/{email}', 'FrontController@form')->name('client');
         Route::post('/', 'FrontController@form')->name('client');
         Route::get('/', 'FrontController@authentication')->name('authentication');
         Route::post('/thanks/{id_client}', 'FrontController@thanks')->name('client.thanks');
