@@ -75,7 +75,7 @@ The documentation can be found at `/api/documentation` after launching the app.
 
 From your command line:
 ```bash
-git clone https://github.com/Liae374/nps-app
+git clone https://github.com/emmamange/nps-app
 cd nps-app 
 composer install
 touch database/database.sqlite
