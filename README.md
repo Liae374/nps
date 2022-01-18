@@ -89,7 +89,7 @@ php artisan serve
 
 Clone this repository
 ```bash
-git clone https://github.com/Liae374/nps-app
+git clone https://github.com/emmamange/nps-app
 ```
 
 Go to the repository
